@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PumpFun | The Ultimate Pump Memecoin</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --primary-color: #FF6B00;
+            --secondary-color: #FFA559;
+            --background-color: #222222;
+            --text-color: #FFFFFF;
+            --accent-color: #00FFAA;
+            --phantom-color: #AB9FF2;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Space Mono', monospace;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            padding: 2rem 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .logo {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        h1 {
+            font-size: 4rem;
+            color: #00ff95;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--secondary-color);
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+        
+        .section {
+            padding: 2rem;
+            border: 4px solid var(--primary-color);
+            border-radius: 15px;
+            position: relative;
+            background: linear-gradient(rgba(34, 34, 34, 0.95), rgba(34, 34, 34, 0.95)), 
+                        url('/api/placeholder/1200/800');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .section p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: transform 0.3s, background-color 0.3s;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 9px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-phantom {
+            background-color: var(--phantom-color);
+            color: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-phantom img {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .btn-phantom:hover {
+            background-color: #9F8BE8;
+        }
+        
+        .btn-buy {
+            background-color: var(--accent-color);
+            color: #222;
+            font-size: 1.5rem;
+            padding: 1.5rem 3rem;
+            margin-top: 1rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .btn-buy:hover {
+            background-color: #00E89C;
+            animation: none;
+            transform: translateY(-5px) scale(1.05);
+        }
+        
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .emoji {
+            font-size: 4rem;
+            text-align: center;
+            animation: bounce 3s infinite alternate;
+        }
+        
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+        
+        .experiment-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .pump-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 2rem 0;
+        }
+        
+        .pump {
+            width: 100%;
+            height: 100%;
+            background-image: url('/api/placeholder/300/300');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .pump:active {
+            transform: scale(0.95);
+        }
+        
+        .balloon {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
+        
+        .counter {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(0, 255, 170, 0.5);
+        }
+        
+        .results {
+            margin-top: 3rem;
+            padding: 2rem;
+            border: 2px dashed var(--secondary-color);
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+            background-color: rgba(255, 107, 0, 0.1);
+        }
+        
+        footer {
+            margin-top: 4rem;
+            text-align: center;
+            padding: 2rem;
+            border-top: 2px solid var(--primary-color);
+        }
+        
+        .faq {
+            margin-top: 3rem;
+        }
+        
+        .faq-item {
+            margin-bottom: 1.5rem;
+        }
+        
+        .faq-question {
+            font-weight: bold;
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .emoji-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .btn-buy {
+                padding: 1rem 2rem;
+                font-size: 1.2rem;
+            }
+        }
+        
+        .marquee {
+            white-space: nowrap;
+            overflow: hidden;
+            position: relative;
+            background-color: var(--primary-color);
+            padding: 1rem 0;
+            margin: 3rem 0;
+        }
+        
+        .marquee-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+        
+        .wallet-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            margin: 2rem 0;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .wallet-info {
+            font-size: 1rem;
+            background-color: rgba(171, 159, 242, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            border: 1px solid var(--phantom-color);
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: none;
+        }
+        
+        .tokenomics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .token-item {
+            background-color: rgba(255, 107, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .token-item:hover {
+            transform: translateY(-10px);
+            background-color: rgba(255, 107, 0, 0.3);
+        }
+        
+        .token-title {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        
+        .token-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .price-chart {
+            width: 100%;
+            height: 200px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(transparent, var(--accent-color));
+            clip-path: polygon(0% 100%, 10% 80%, 20% 90%, 30% 70%, 40% 85%, 50% 60%, 60% 80%, 70% 65%, 80% 45%, 90% 25%, 100% 5%, 100% 100%);
+        }
+        
+        .buy-section {
+            padding: 3rem;
+            background: linear-gradient(45deg, rgba(255, 107, 0, 0.2), rgba(0, 255, 170, 0.2));
+            border-radius: 15px;
+            text-align: center;
+            margin: 4rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .buy-title {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+        }
+        
+        .countdown {
+            font-size: 2rem;
+            margin: 2rem 0;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-5px) rotate(15deg);
+            background-color: var(--secondary-color);
+        }
+        
+        .how-to-buy {
+            margin: 3rem 0;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .step {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-color);
+            color: var(--background-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .coin-stats {
+            background-color: rgba(255, 107, 0, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            padding: 1rem;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: var(--background-color);
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateX(200%);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="pressure-water-pump-tubewell-icon-260nw-2204811671-removebg-preview.png" alt="PumpFun Logo" class="logo">
+            <h1>Pump expriment</h1>
+            <h2>The Only Memecoin That Actually Pumps!</h2>
+            
+            <div class="wallet-section">
+                <button class="btn btn-phantom" id="connect-wallet">
+                    <img src="pressure-water-pump-tubewell-icon-260nw-2204811671-removebg-preview.png" alt="Phantom Logo">
+                    Connect Wallet
+                </button>
+                <div class="wallet-info" id="wallet-info">Not connected</div>
+            </div>
+        </header>
+        
+        <div class="buy-section">
+            <h2 class="buy-title">$PUMP TO THE MOON 🚀</h2>
+            <p>Don't miss out on the next 100x memecoin sensation! Limited supply, unlimited potential!</p>
+            
+            <div class="countdown">Rewards Ends In: <span id="countdown-timer">24:13:45</span></div>
+            
+            <div class="coin-stats">
+                <div class="stat">
+                    <div class="stat-label">Price</div>
+                    <div class="stat-value">$TBA</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Market Cap</div>
+                    <div class="stat-value">$TBA</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Holders</div>
+                    <div class="stat-value">TBA</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">24h Change</div>
+                    <div class="stat-value" style="color: var(--accent-color);">+TBA%</div>
+                </div>
+            </div>
+            
+            <div class="price-chart">
+                <div class="chart-line"></div>
+            </div>
+            
+            <button class="btn btn-buy" id="buy-btn">BUY $PUMP NOW! 🚀</button>
+            
+            <div class="socials">
+                <a href="https://x.com/Pump_experiment" class="social-btn">🐦</a>
+                <a href="https://pump.fun/profile/5ogSaEVeu4tHFwmrYyufKdhyUXsRhwFqx17jhqrdvFWd" class="social-btn">CA</a>
+                <a href="https://t.me/pumpexperiment" class="social-btn">💬</a>
+            </div>
+        </div>
+
+        <div class="section experiment-section">
+            <h3>The PumpFun Game</h3>
+            <p>Try our signature game that inspired the token! Each pump increases your potential rewards, but watch out - it might pop! Just like in pumps, know when to take profits!</p>
+            
+            <div class="pump-container">
+                <div class="pump" id="pump"></div>
+                <div class="balloon" id="balloon"></div>
+            </div>
+            
+            <div class="counter">Pumps: <span id="pump-count">0</span></div>
+            <button class="btn" id="collect-btn">COLLECT REWARDS</button>
+            
+            <div class="results" id="results">
+                <h3>Game Results</h3>
+                <p>You pumped <span id="final-count">0</span> times!</p>
+                <p id="result-message"></p>
+                <p>Ready to experience the real pump? Buy $PUMP now!</p>
+                <button class="btn" id="restart-btn">TRY AGAIN</button>
+                <button class="btn btn-buy" id="results-buy-btn">BUY $PUMP</button>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="section">
+                <h3>The $PUMP Revolution</h3>
+                <p>PumpFun ($PUMP) isn't just another meme token. It's a community-driven experiment combining the viral nature of memecoins with actual utility. Every time you pump, the token value increases!</p>
+                <p>Join thousands of holders who are already experiencing the fun of watching their investments pump to new heights!</p>
+                <div class="emoji-grid">
+                    <div class="emoji">🚀</div>
+                    <div class="emoji">💰</div>
+                    <div class="emoji">🌕</div>
+                    <div class="emoji">💎</div>
+                    <div class="emoji">🔥</div>
+                    <div class="emoji">🎯</div>
+                </div>
+            </div>
+            
+            <div class="marquee">
+                <div class="marquee-content">
+                    $PUMP UP 69% TODAY • LISTED ON 4 EXCHANGES • NEW PARTNERSHIPS COMING • CELEBRITY ENDORSEMENTS • PUMP RESPONSIBLY • JOIN 8,456 HOLDERS • $PUMP UP 69% TODAY •
+                </div>
+            </div>
+            
+            <div class="section tokenomics">
+                <div class="token-item">
+                    <div class="token-title">Total Supply</div>
+                    <div class="token-value">1,000,000,000</div>
+                    <p>$PUMP Tokens</p>
+                </div>
+                
+                <div class="token-item">
+                    <div class="token-title">Burn Rate</div>
+                    <div class="token-value">3%</div>
+                    <p>Per Transaction</p>
+                </div>
+                
+                <div class="token-item">
+                    <div class="token-title">Rewards</div>
+                    <div class="token-value">2%</div>
+                    <p>To All Holders</p>
+                </div>
+                
+                <div class="token-item">
+                    <div class="token-title">Max Wallet</div>
+                    <div class="token-value">2%</div>
+                    <p>Of Total Supply</p>
+                </div>
+            </div>
+            
+
+            
+            <div class="section how-to-buy">
+                <h3>How To Buy $PUMP</h3>
+                
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h4>Create Phantom Wallet</h4>
+                        <p>Download Phantom wallet from the official website and set up your wallet</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h4>Get Some SOL</h4>
+                        <p>Buy SOL from an exchange and transfer it to your Phantom wallet</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h4>Connect Your Wallet</h4>
+                        <p>Click "Connect Wallet" at the top of this page and select Phantom</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h4>Swap SOL for $PUMP</h4>
+                        <p>Click "Buy $PUMP Now" and confirm the transaction in your wallet</p>
+                    </div>
+                </div>
+                
+                <p>After purchasing, you can track your $PUMP tokens in your Phantom wallet. Hold for the biggest gains!</p>
+                <button class="btn btn-buy" id="guide-buy-btn">BUY $PUMP NOW! 🚀</button>
+            </div>
+            
+            <div class="section">
+                <h3>The Roadmap to the Moon</h3>
+                <p>The $PUMP token isn't just a short-term play - we're building long-term value through strategic development and community growth.</p>
+                
+                <div class="faq">
+                    <div class="faq-item">
+                        <div class="faq-question">Q1 2025: Launch & Initial Pump</div>
+                        <p>✅ Token launch on Solana</p>
+                        <p>✅ 1,000+ early adopters</p>
+                        <p>✅ PumpFun game release</p>
+                        <p>✅ First marketing push</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Q2 2025: Expansion Phase</div>
+                        <p>⏳ DEX listings</p>
+                        <p>⏳ 10,000+ holders</p>
+                        <p>⏳ NFT collection drop</p>
+                        <p>⏳ Community governance</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Q3 2025: Mass Adoption</div>
+                        <p>🔮 CEX listings</p>
+                        <p>🔮 50,000+ holders</p>
+                        <p>🔮 PumpFun ecosystem expansion</p>
+                        <p>🔮 Strategic partnerships</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Q4 2025: To The Moon</div>
+                        <p>🚀 Major exchange listings</p>
+                        <p>🚀 $PUMP payment system</p>
+                        <p>🚀 Mobile app launch</p>
+                        <p>🚀 100,000+ holders</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 PumpFun Token. The ultimate memecoin experience.</p>
+            <p>Contact: team@pumpfun.io</p>
+            <p><small>This website is for entertainment purposes only. Cryptocurrency investments involve significant risk. Do your own research before investing.</small></p>
+        </footer>
+    </div>
+    
+    <div class="notification" id="notification">
+        Someone just bought 25,000 $PUMP tokens! 🚀
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Game functionality
+            const pump = document.getElementById('pump');
+            const balloon = document.getElementById('balloon');
+            const pumpCount = document.getElementById('pump-count');
+            const collectBtn = document.getElementById('collect-btn');
+            const results = document.getElementById('results');
+            const finalCount = document.getElementById('final-count');
+            const resultMessage = document.getElementById('result-message');
+            const restartBtn = document.getElementById('restart-btn');
+            
+            let count = 0;
+            let popPoint = Math.floor(Math.random() * 20) + 10; // Random between 10-30
+            let size = 20;
+            
+            function updateBalloon() {
+                size += 10;
+                balloon.style.width = `${size}px`;
+                balloon.style.height = `${size}px`;
+            }
+            
+            function checkPop() {
+                if (count >= popPoint) {
+                    // Pop the balloon
+                    balloon.style.backgroundColor = 'transparent';
+                    balloon.style.boxShadow = '0 0 50px 20px rgba(255, 107, 0, 0.8)';
+                    balloon.style.width = `${size * 2}px`;
+                    balloon.style.height = `${size * 2}px`;
+                    
+                    setTimeout(() => {
+                        balloon.style.width = '0';
+                        balloon.style.height = '0';
+                        showResults(true);
+                    }, 300);
+                    
+                    return true;
+                }
+                return false;
+            }
+            
+            function showResults(popped) {
+                finalCount.textContent = count;
+                
+                if (popped) {
+                    if (count < 10) {
+                        resultMessage.textContent = "Oh no! Your balloon popped early. In crypto terms: You got REKT! 💥";
+                    } else if (count < 20) {
+                        resultMessage.textContent = "BOOM! Your balloon popped after a decent run. Diamond hands until the end! 💎";
+                    } else {
+                        resultMessage.textContent = "KABOOM! You pushed it to the limit! True degenerate style - high risk, high reward! 🔥";
+                    }
+                } else {
+                    if (count < 10) {
+                        resultMessage.textContent = "Paper hands alert! 📄 You took profits early, at least you didn't get REKT!";
+                    } else if (count < 20) {
+                        resultMessage.textContent = "Smart trading! You know when to take profits. This is the way! 👊";
+                    } else {
+                        resultMessage.textContent = "Whale strategy! 🐋 You maximized your gains without getting liquidated. Teach us your ways!";
+                    }
+                }
+                
+                pump.style.pointerEvents = 'none';
+                collectBtn.style.display = 'none';
+                results.style.display = 'block';
+            }
+            
+            pump.addEventListener('click', () => {
+                count++;
+                pumpCount.textContent = count;
+                updateBalloon();
+                
+                if (!checkPop()) {
+                    // Play pumping animation
+                    pump.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        pump.style.transform = 'scale(1)';
+                    }, 100);
+                }
+            });
+            
+            collectBtn.addEventListener('click', () => {
+                showResults(false);
+            });
+            
+            restartBtn.addEventListener('click', () => {
+                // Reset everything
+                count = 0;
+                popPoint = Math.floor(Math.random() * 20) + 10;
+                size = 20;
+                pumpCount.textContent = '0';
+                balloon.style.width = '20px';
+                balloon.style.height = '20px';
+                balloon.style.backgroundColor = 'var(--primary-color)';
+                balloon.style.boxShadow = 'none';
+                
+                pump.style.pointerEvents = 'auto';
+                collectBtn.style.display = 'inline-block';
+                results.style.display = 'none';
+            });
+            
+            // Phantom wallet connection
+            const connectWalletBtn = document.getElementById('connect-wallet');
+            const walletInfo = document.getElementById('wallet-info');
+            
+            connectWalletBtn.addEventListener('click', () => {
+                // Simulate wallet connection
+                setTimeout(() => {
+                    const walletAddress = "8xPkT...9z4M";
+                    walletInfo.textContent = `Connected: ${walletAddress}`;
+                    walletInfo.style.display = 'block';
+                    connectWalletBtn.textContent = 'Wallet Connected';
+                    connectWalletBtn.disabled = true;
+                    
+                    // Show notification
+                    showNotification("Wallet successfully connected! Ready to buy $PUMP!");
+                }, 1000);
+            });
+            
+            // Buy button functionality
+            const buyButtons = document.querySelectorAll('.btn-buy');
