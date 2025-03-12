@@ -850,232 +850,233 @@ header h1::after {
     </div>
 
     <script>
-// Import Solana libraries (if using a bundler like Webpack or Vite)
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { ConnectionProvider, WalletProvider, useWallet } from '@solana/wallet-adapter-react';
-import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
-import { Connection, PublicKey, Transaction, SystemProgram, clusterApiUrl } from '@solana/web3.js';
-import React, { useMemo, useEffect, useState } from 'react';
+    // Import Solana libraries (if using a bundler like Webpack or Vite)
+    import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+    import { ConnectionProvider, WalletProvider, useWallet } from '@solana/wallet-adapter-react';
+    import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+    import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
+    import { Connection, PublicKey, Transaction, SystemProgram, clusterApiUrl } from '@solana/web3.js';
+    import React, { useMemo, useEffect, useState } from 'react';
 
-// Wallet Connection Logic
-function ConnectWalletButton() {
-    const { connect, connected, publicKey } = useWallet();
+    // Wallet Connection Logic
+    function ConnectWalletButton() {
+        const { connect, connected, publicKey } = useWallet();
 
-    const handleConnect = async () => {
+        const handleConnect = async () => {
+            try {
+                await connect();
+            } catch (error) {
+                console.error('Error connecting wallet:', error);
+            }
+        };
+
+        return (
+            <button onClick={handleConnect} disabled={connected}>
+                {connected ? `Connected: ${publicKey.toBase58().slice(0, 6)}...` : 'Connect Wallet'}
+            </button>
+        );
+    }
+
+    // Buy Functionality
+    async function buyTokens() {
+        const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
+        const { publicKey, sendTransaction } = useWallet();
+
+        if (!publicKey) {
+            alert('Please connect your wallet first.');
+            return;
+        }
+
+        const transaction = new Transaction().add(
+            SystemProgram.transfer({
+                fromPubkey: publicKey,
+                toPubkey: new PublicKey('RECIPIENT_WALLET_ADDRESS'), // Replace with your token address
+                lamports: 1000000, // Amount in lamports (1 SOL = 1000000000 lamports)
+            })
+        );
+
         try {
-            await connect();
+            const signature = await sendTransaction(transaction, connection);
+            await connection.confirmTransaction(signature, 'processed');
+            alert('Purchase successful!');
         } catch (error) {
-            console.error('Error connecting wallet:', error);
+            console.error('Error purchasing tokens:', error);
+            alert('Purchase failed. Please try again.');
         }
-    };
-
-    return (
-        <button onClick={handleConnect} disabled={connected}>
-            {connected ? `Connected: ${publicKey.toBase58().slice(0, 6)}...` : 'Connect Wallet'}
-        </button>
-    );
-}
-
-// Buy Functionality
-async function buyTokens() {
-    const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
-    const { publicKey, sendTransaction } = useWallet();
-
-    if (!publicKey) {
-        alert('Please connect your wallet first.');
-        return;
     }
 
-    const transaction = new Transaction().add(
-        SystemProgram.transfer({
-            fromPubkey: publicKey,
-            toPubkey: new PublicKey('RECIPIENT_WALLET_ADDRESS'), // Replace with your token address
-            lamports: 1000000, // Amount in lamports (1 SOL = 1000000000 lamports)
-        })
-    );
+    // Rewards System
+    async function collectRewards() {
+        const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
+        const { publicKey, sendTransaction } = useWallet();
 
-    try {
-        const signature = await sendTransaction(transaction, connection);
-        await connection.confirmTransaction(signature, 'processed');
-        alert('Purchase successful!');
-    } catch (error) {
-        console.error('Error purchasing tokens:', error);
-        alert('Purchase failed. Please try again.');
-    }
-}
-
-// Rewards System
-async function collectRewards() {
-    const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
-    const { publicKey, sendTransaction } = useWallet();
-
-    if (!publicKey) {
-        alert('Please connect your wallet first.');
-        return;
-    }
-
-    // Replace with your reward distribution logic
-    const rewardAmount = 100; // Example: 100 tokens
-    const transaction = new Transaction().add(
-        // Add instructions to transfer rewards to the user
-    );
-
-    try {
-        const signature = await sendTransaction(transaction, connection);
-        await connection.confirmTransaction(signature, 'processed');
-        alert(`You've collected ${rewardAmount} $PUMP tokens!`);
-    } catch (error) {
-        console.error('Error collecting rewards:', error);
-        alert('Failed to collect rewards. Please try again.');
-    }
-}
-
-// Countdown Timer
-function startCountdown() {
-    const countdownElement = document.getElementById('countdown-timer');
-    let timeLeft = 13 * 60 + 45; // 13 minutes and 45 seconds
-
-    const timer = setInterval(() => {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        countdownElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            countdownElement.textContent = '00:00';
-            alert('Rewards period has ended!');
-        } else {
-            timeLeft--;
+        if (!publicKey) {
+            alert('Please connect your wallet first.');
+            return;
         }
-    }, 1000);
-}
 
-// Notification System
-function showNotification(message) {
-    const notification = document.getElementById('notification');
-    notification.textContent = message;
-    notification.style.display = 'block';
+        // Replace with your reward distribution logic
+        const rewardAmount = 100; // Example: 100 tokens
+        const transaction = new Transaction().add(
+            // Add instructions to transfer rewards to the user
+        );
 
-    setTimeout(() => {
-        notification.style.display = 'none';
-    }, 5000);
-}
-
-// Game Functionality
-function setupGame() {
-    const pump = document.getElementById('pump');
-    const balloon = document.getElementById('balloon');
-    const pumpCount = document.getElementById('pump-count');
-    const collectBtn = document.getElementById('collect-btn');
-    const results = document.getElementById('results');
-    const finalCount = document.getElementById('final-count');
-    const resultMessage = document.getElementById('result-message');
-    const restartBtn = document.getElementById('restart-btn');
-
-    let count = 0;
-    let popPoint = Math.floor(Math.random() * 20) + 10; // Random between 10-30
-    let size = 20;
-
-    function updateBalloon() {
-        size += 10;
-        balloon.style.width = `${size}px`;
-        balloon.style.height = `${size}px`;
-    }
-
-    function checkPop() {
-        if (count >= popPoint) {
-            // Pop the balloon
-            balloon.style.backgroundColor = 'transparent';
-            balloon.style.boxShadow = '0 0 50px 20px rgba(255, 107, 0, 0.8)';
-            balloon.style.width = `${size * 2}px`;
-            balloon.style.height = `${size * 2}px`;
-
-            setTimeout(() => {
-                balloon.style.width = '0';
-                balloon.style.height = '0';
-                showResults(true);
-            }, 300);
-
-            return true;
+        try {
+            const signature = await sendTransaction(transaction, connection);
+            await connection.confirmTransaction(signature, 'processed');
+            alert(`You've collected ${rewardAmount} $PUMP tokens!`);
+        } catch (error) {
+            console.error('Error collecting rewards:', error);
+            alert('Failed to collect rewards. Please try again.');
         }
-        return false;
     }
 
-    function showResults(popped) {
-        finalCount.textContent = count;
+    // Countdown Timer
+    function startCountdown() {
+        const countdownElement = document.getElementById('countdown-timer');
+        let timeLeft = 13 * 60 + 45; // 13 minutes and 45 seconds
 
-        if (popped) {
-            if (count < 10) {
-                resultMessage.textContent = "Oh no! Your balloon popped early. In crypto terms: You got REKT! 💥";
-            } else if (count < 20) {
-                resultMessage.textContent = "BOOM! Your balloon popped after a decent run. Diamond hands until the end! 💎";
+        const timer = setInterval(() => {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            countdownElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                countdownElement.textContent = '00:00';
+                alert('Rewards period has ended!');
             } else {
-                resultMessage.textContent = "KABOOM! You pushed it to the limit! True degenerate style - high risk, high reward! 🔥";
+                timeLeft--;
             }
-        } else {
-            if (count < 10) {
-                resultMessage.textContent = "Paper hands alert! 📄 You took profits early, at least you didn't get REKT!";
-            } else if (count < 20) {
-                resultMessage.textContent = "Smart trading! You know when to take profits. This is the way! 👊";
-            } else {
-                resultMessage.textContent = "Whale strategy! 🐋 You maximized your gains without getting liquidated. Teach us your ways!";
-            }
-        }
-
-        pump.style.pointerEvents = 'none';
-        collectBtn.style.display = 'none';
-        results.style.display = 'block';
+        }, 1000);
     }
 
-    pump.addEventListener('click', () => {
-        count++;
-        pumpCount.textContent = count;
-        updateBalloon();
+    // Notification System
+    function showNotification(message) {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.style.display = 'block';
 
-        if (!checkPop()) {
-            // Play pumping animation
-            pump.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                pump.style.transform = 'scale(1)';
-            }, 100);
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 5000);
+    }
+
+    // Game Functionality
+    function setupGame() {
+        const pump = document.getElementById('pump');
+        const balloon = document.getElementById('balloon');
+        const pumpCount = document.getElementById('pump-count');
+        const collectBtn = document.getElementById('collect-btn');
+        const results = document.getElementById('results');
+        const finalCount = document.getElementById('final-count');
+        const resultMessage = document.getElementById('result-message');
+        const restartBtn = document.getElementById('restart-btn');
+
+        let count = 0;
+        let popPoint = Math.floor(Math.random() * 20) + 10; // Random between 10-30
+        let size = 20;
+
+        function updateBalloon() {
+            size += 10;
+            balloon.style.width = `${size}px`;
+            balloon.style.height = `${size}px`;
         }
+
+        function checkPop() {
+            if (count >= popPoint) {
+                // Pop the balloon
+                balloon.style.backgroundColor = 'transparent';
+                balloon.style.boxShadow = '0 0 50px 20px rgba(255, 107, 0, 0.8)';
+                balloon.style.width = `${size * 2}px`;
+                balloon.style.height = `${size * 2}px`;
+
+                setTimeout(() => {
+                    balloon.style.width = '0';
+                    balloon.style.height = '0';
+                    showResults(true);
+                }, 300);
+
+                return true;
+            }
+            return false;
+        }
+
+        function showResults(popped) {
+            finalCount.textContent = count;
+
+            if (popped) {
+                if (count < 10) {
+                    resultMessage.textContent = "Oh no! Your balloon popped early. In crypto terms: You got REKT! 💥";
+                } else if (count < 20) {
+                    resultMessage.textContent = "BOOM! Your balloon popped after a decent run. Diamond hands until the end! 💎";
+                } else {
+                    resultMessage.textContent = "KABOOM! You pushed it to the limit! True degenerate style - high risk, high reward! 🔥";
+                }
+            } else {
+                if (count < 10) {
+                    resultMessage.textContent = "Paper hands alert! 📄 You took profits early, at least you didn't get REKT!";
+                } else if (count < 20) {
+                    resultMessage.textContent = "Smart trading! You know when to take profits. This is the way! 👊";
+                } else {
+                    resultMessage.textContent = "Whale strategy! 🐋 You maximized your gains without getting liquidated. Teach us your ways!";
+                }
+            }
+
+            pump.style.pointerEvents = 'none';
+            collectBtn.style.display = 'none';
+            results.style.display = 'block';
+        }
+
+        pump.addEventListener('click', () => {
+            count++;
+            pumpCount.textContent = count;
+            updateBalloon();
+
+            if (!checkPop()) {
+                // Play pumping animation
+                pump.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    pump.style.transform = 'scale(1)';
+                }, 100);
+            }
+        });
+
+        collectBtn.addEventListener('click', () => {
+            showResults(false);
+        });
+
+        restartBtn.addEventListener('click', () => {
+            // Reset everything
+            count = 0;
+            popPoint = Math.floor(Math.random() * 20) + 10;
+            size = 20;
+            pumpCount.textContent = '0';
+            balloon.style.width = '20px';
+            balloon.style.height = '20px';
+            balloon.style.backgroundColor = 'var(--primary-color)';
+            balloon.style.boxShadow = 'none';
+
+            pump.style.pointerEvents = 'auto';
+            collectBtn.style.display = 'inline-block';
+            results.style.display = 'none';
+        });
+    }
+
+    // Initialize Everything
+    document.addEventListener('DOMContentLoaded', () => {
+        startCountdown();
+        setupGame();
+
+        // Attach Buy button
+        document.getElementById('buy-btn').addEventListener('click', buyTokens);
+
+        // Attach Collect Rewards button
+        document.getElementById('collect-btn').addEventListener('click', collectRewards);
+
+        // Show example notification
+        showNotification('Someone just bought 25,000 $PUMP tokens! 🚀');
     });
 
-    collectBtn.addEventListener('click', () => {
-        showResults(false);
-    });
-
-    restartBtn.addEventListener('click', () => {
-        // Reset everything
-        count = 0;
-        popPoint = Math.floor(Math.random() * 20) + 10;
-        size = 20;
-        pumpCount.textContent = '0';
-        balloon.style.width = '20px';
-        balloon.style.height = '20px';
-        balloon.style.backgroundColor = 'var(--primary-color)';
-        balloon.style.boxShadow = 'none';
-
-        pump.style.pointerEvents = 'auto';
-        collectBtn.style.display = 'inline-block';
-        results.style.display = 'none';
-    });
-}
-
-// Initialize Everything
-document.addEventListener('DOMContentLoaded', () => {
-    startCountdown();
-    setupGame();
-
-    // Attach Buy button
-    document.getElementById('buy-btn').addEventListener('click', buyTokens);
-
-    // Attach Collect Rewards button
-    document.getElementById('collect-btn').addEventListener('click', collectRewards);
-
-    // Show example notification
-    showNotification('Someone just bought 25,000 $PUMP tokens! 🚀');
-});
-
-</script>
+    </script>
+</body>
