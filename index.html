@@ -3,517 +3,649 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PumpFun | The Ultimate Pump Memecoin</title>
+    <title>Pump | The Ultimate Pump Memecoin</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
-        
         :root {
-            --primary-color: #FF6B00;
-            --secondary-color: #FFA559;
-            --background-color: #222222;
-            --text-color: #FFFFFF;
-            --accent-color: #00FFAA;
-            --phantom-color: #AB9FF2;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Space Mono', monospace;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        header {
-            padding: 2rem 0;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .logo {
-            width: 180px;
-            height: 180px;
-            margin-bottom: 1rem;
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        h1 {
-            font-size: 4rem;
-            color: #00ff95;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
-        }
-        
-        h2 {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            color: var(--secondary-color);
-        }
-        
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            gap: 4rem;
-        }
-        
-        .section {
-            padding: 2rem;
-            border: 4px solid var(--primary-color);
-            border-radius: 15px;
-            position: relative;
-            background: linear-gradient(rgba(34, 34, 34, 0.95), rgba(34, 34, 34, 0.95)), 
-                        url('/api/placeholder/1200/800');
-            background-size: cover;
-            background-position: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .section h3 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary-color);
-        }
-        
-        .section p {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: var(--text-color);
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Space Mono', monospace;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            text-transform: uppercase;
-            transition: transform 0.3s, background-color 0.3s;
-            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
-        }
-        
-        .btn:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-5px);
-            box-shadow: 0 9px 0 rgba(0, 0, 0, 0.2);
-        }
-        
-        .btn:active {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
-        }
+  --bg-color: #0a0e14;
+  --terminal-bg: #121620;
+  --text-color: #e0f0ff;
+  --accent-color: #36f9f6;
+  --secondary-color: #ff5d8f;
+  --success-color: #46ef8e;
+  --border-color: #304056;
+  --border-radius: 4px;
+  --font-mono: 'Courier New', monospace;
+  --font-terminal: 'IBM Plex Mono', 'Fira Code', monospace;
+}
 
-        .btn-phantom {
-            background-color: var(--phantom-color);
-            color: #222;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        
-        .btn-phantom img {
-            width: 24px;
-            height: 24px;
-        }
-        
-        .btn-phantom:hover {
-            background-color: #9F8BE8;
-        }
-        
-        .btn-buy {
-            background-color: var(--accent-color);
-            color: #222;
-            font-size: 1.5rem;
-            padding: 1.5rem 3rem;
-            margin-top: 1rem;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .btn-buy:hover {
-            background-color: #00E89C;
-            animation: none;
-            transform: translateY(-5px) scale(1.05);
-        }
-        
-        .emoji-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        
-        .emoji {
-            font-size: 4rem;
-            text-align: center;
-            animation: bounce 3s infinite alternate;
-        }
-        
-        @keyframes bounce {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-20px); }
-        }
-        
-        .experiment-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .pump-container {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 2rem 0;
-        }
-        
-        .pump {
-            width: 100%;
-            height: 100%;
-            background-image: url('/api/placeholder/300/300');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .pump:active {
-            transform: scale(0.95);
-        }
-        
-        .balloon {
-            position: absolute;
-            bottom: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 20px;
-            background-color: var(--primary-color);
-            border-radius: 50%;
-            transition: all 0.5s ease;
-        }
-        
-        .counter {
-            font-size: 2rem;
-            font-weight: bold;
-            margin: 1rem 0;
-            color: var(--accent-color);
-            text-shadow: 0 0 10px rgba(0, 255, 170, 0.5);
-        }
-        
-        .results {
-            margin-top: 3rem;
-            padding: 2rem;
-            border: 2px dashed var(--secondary-color);
-            border-radius: 10px;
-            text-align: center;
-            display: none;
-            background-color: rgba(255, 107, 0, 0.1);
-        }
-        
-        footer {
-            margin-top: 4rem;
-            text-align: center;
-            padding: 2rem;
-            border-top: 2px solid var(--primary-color);
-        }
-        
-        .faq {
-            margin-top: 3rem;
-        }
-        
-        .faq-item {
-            margin-bottom: 1.5rem;
-        }
-        
-        .faq-question {
-            font-weight: bold;
-            color: var(--secondary-color);
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .emoji-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .btn-buy {
-                padding: 1rem 2rem;
-                font-size: 1.2rem;
-            }
-        }
-        
-        .marquee {
-            white-space: nowrap;
-            overflow: hidden;
-            position: relative;
-            background-color: var(--primary-color);
-            padding: 1rem 0;
-            margin: 3rem 0;
-        }
-        
-        .marquee-content {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee 15s linear infinite;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        
-        @keyframes marquee {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
-        }
-        
-        .wallet-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-            margin: 2rem 0;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        .wallet-info {
-            font-size: 1rem;
-            background-color: rgba(171, 159, 242, 0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            border: 1px solid var(--phantom-color);
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: none;
-        }
-        
-        .tokenomics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-        
-        .token-item {
-            background-color: rgba(255, 107, 0, 0.2);
-            padding: 1.5rem;
-            border-radius: 10px;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .token-item:hover {
-            transform: translateY(-10px);
-            background-color: rgba(255, 107, 0, 0.3);
-        }
-        
-        .token-title {
-            font-size: 1.5rem;
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-        }
-        
-        .token-value {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        
-        .price-chart {
-            width: 100%;
-            height: 200px;
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            margin: 2rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .chart-line {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(transparent, var(--accent-color));
-            clip-path: polygon(0% 100%, 10% 80%, 20% 90%, 30% 70%, 40% 85%, 50% 60%, 60% 80%, 70% 65%, 80% 45%, 90% 25%, 100% 5%, 100% 100%);
-        }
-        
-        .buy-section {
-            padding: 3rem;
-            background: linear-gradient(45deg, rgba(255, 107, 0, 0.2), rgba(0, 255, 170, 0.2));
-            border-radius: 15px;
-            text-align: center;
-            margin: 4rem 0;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        .buy-title {
-            font-size: 3rem;
-            margin-bottom: 2rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-transform: uppercase;
-        }
-        
-        .countdown {
-            font-size: 2rem;
-            margin: 2rem 0;
-            font-weight: bold;
-            color: var(--accent-color);
-        }
-        
-        .socials {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        
-        .social-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            transition: transform 0.3s, background-color 0.3s;
-        }
-        
-        .social-btn:hover {
-            transform: translateY(-5px) rotate(15deg);
-            background-color: var(--secondary-color);
-        }
-        
-        .how-to-buy {
-            margin: 3rem 0;
-        }
-        
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-        
-        .step {
-            background-color: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-radius: 10px;
-            text-align: center;
-            position: relative;
-        }
-        
-        .step-number {
-            position: absolute;
-            top: -20px;
-            left: -20px;
-            width: 40px;
-            height: 40px;
-            background-color: var(--accent-color);
-            color: var(--background-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-        
-        .coin-stats {
-            background-color: rgba(255, 107, 0, 0.1);
-            padding: 1rem;
-            border-radius: 10px;
-            margin-top: 2rem;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        
-        .stat {
-            padding: 1rem;
-            text-align: center;
-            flex: 1;
-            min-width: 150px;
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--secondary-color);
-        }
-        
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--accent-color);
-            color: var(--background-color);
-            padding: 1rem;
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transform: translateX(200%);
-            transition: transform 0.5s ease;
-            z-index: 1000;
-        }
-        
-        .notification.show {
-            transform: translateX(0);
-        }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-terminal);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+}
+
+/* Terminal window styling */
+.container::before {
+  content: "pumpfun@terminal:~$ init --launch";
+  display: block;
+  background-color: var(--terminal-bg);
+  color: var(--success-color);
+  padding: 10px 15px;
+  font-family: var(--font-terminal);
+  font-size: 14px;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  border-bottom: none;
+}
+
+header {
+  background-color: var(--terminal-bg);
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-bottom: 1px dashed var(--border-color);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  max-height: 80px;
+  filter: drop-shadow(0 0 8px var(--accent-color));
+  transition: transform 0.3s;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent-color);
+  text-shadow: 0 0 10px rgba(54, 249, 246, 0.4);
+  margin: 0;
+  flex-grow: 1;
+  text-align: center;
+}
+
+header h2 {
+  font-size: 16px;
+  font-weight: 400;
+  width: 100%;
+  text-align: center;
+  margin-top: 5px;
+  color: var(--secondary-color);
+}
+
+.wallet-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.btn {
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  font-family: var(--font-terminal);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: var(--border-radius);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn:hover {
+  background-color: rgba(54, 249, 246, 0.1);
+  border-color: var(--accent-color);
+}
+
+.btn-phantom {
+  background-color: rgba(128, 90, 213, 0.2);
+  border-color: #805ad5;
+}
+
+.btn-phantom:hover {
+  background-color: rgba(128, 90, 213, 0.3);
+}
+
+.btn-phantom img {
+  height: 20px;
+}
+
+.wallet-info {
+  margin-top: 8px;
+  font-size: 12px;
+  color: rgba(224, 240, 255, 0.7);
+  background-color: rgba(10, 14, 20, 0.3);
+  padding: 4px 8px;
+  border-radius: var(--border-radius);
+  border: 1px dashed var(--border-color);
+}
+
+/* Buy section */
+.buy-section {
+  background-color: var(--terminal-bg);
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-top: none;
+  text-align: center;
+  position: relative;
+}
+
+.buy-section::before {
+  content: "$ pump --stats --rewards";
+  color: var(--success-color);
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.buy-title {
+  font-size: 24px;
+  color: var(--accent-color);
+  margin-bottom: 10px;
+  animation: blink 3s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.countdown {
+  background-color: rgba(10, 14, 20, 0.5);
+  border: 1px solid var(--border-color);
+  display: inline-block;
+  padding: 8px 15px;
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  margin: 15px 0;
+}
+
+#countdown-timer {
+  color: var(--secondary-color);
+  font-weight: bold;
+}
+
+.coin-stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.stat {
+  flex: 1;
+  min-width: 100px;
+  background-color: rgba(10, 14, 20, 0.5);
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  border-radius: var(--border-radius);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: rgba(224, 240, 255, 0.7);
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.price-chart {
+  height: 100px;
+  background-color: rgba(10, 14, 20, 0.3);
+  margin: 20px 0;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(transparent 60%, rgba(54, 249, 246, 0.2));
+  clip-path: polygon(0 100%, 5% 80%, 10% 85%, 15% 75%, 20% 80%, 25% 70%, 30% 75%, 35% 65%, 40% 70%, 45% 60%, 50% 65%, 55% 55%, 60% 60%, 65% 50%, 70% 55%, 75% 45%, 80% 50%, 85% 40%, 90% 45%, 95% 30%, 100% 35%, 100% 100%);
+}
+
+.btn-buy {
+  background-color: rgba(70, 239, 142, 0.2);
+  color: var(--success-color);
+  border-color: var(--success-color);
+  font-size: 16px;
+  padding: 12px 24px;
+  margin: 10px 0;
+}
+
+.btn-buy:hover {
+  background-color: rgba(70, 239, 142, 0.3);
+}
+
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.social-btn {
+  display: inline-block;
+  font-size: 18px;
+  text-decoration: none;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: rgba(10, 14, 20, 0.5);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s;
+}
+
+.social-btn:hover {
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  transform: translateY(-3px);
+}
+
+/* Game section */
+.experiment-section {
+  margin-top: 20px;
+  position: relative;
+}
+
+.experiment-section::before {
+  content: "$ ./pumpgame --start";
+  color: var(--success-color);
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.pump-container {
+  height: 200px;
+  position: relative;
+  margin: 30px auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.pump {
+  width: 50px;
+  height: 100px;
+  background-color: var(--secondary-color);
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.pump:before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 15px;
+  width: 20px;
+  height: 15px;
+  background-color: var(--secondary-color);
+}
+
+.pump:active {
+  transform: scaleY(0.95);
+}
+
+.balloon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(var(--accent-color), rgba(54, 249, 246, 0.8));
+  position: absolute;
+  bottom: 120px;
+  left: calc(50% - 30px);
+  transition: all 0.3s;
+  box-shadow: 0 0 15px rgba(54, 249, 246, 0.5);
+}
+
+.counter {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+#pump-count {
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.results {
+  display: none;
+  background-color: rgba(10, 14, 20, 0.7);
+  padding: 20px;
+  border: 1px solid var(--accent-color);
+  border-radius: var(--border-radius);
+  margin-top: 20px;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.section {
+  background-color: var(--terminal-bg);
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  margin-top: 20px;
+  position: relative;
+}
+
+.section h3 {
+  color: var(--accent-color);
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.emoji {
+  font-size: 28px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(10, 14, 20, 0.3);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  transition: all 0.2s;
+}
+
+.emoji:hover {
+  transform: scale(1.05);
+  background-color: rgba(54, 249, 246, 0.1);
+  border-color: var(--accent-color);
+}
+
+.marquee {
+  overflow: hidden;
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  padding: 8px 0;
+  margin: 20px 0;
+  white-space: nowrap;
+}
+
+.marquee-content {
+  display: inline-block;
+  animation: marquee 15s linear infinite;
+  font-weight: bold;
+  font-family: var(--font-mono);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.tokenomics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.token-item {
+  background-color: rgba(10, 14, 20, 0.3);
+  border: 1px solid var(--border-color);
+  padding: 15px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.token-item:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-5px);
+}
+
+.token-title {
+  font-size: 16px;
+  color: rgba(224, 240, 255, 0.7);
+}
+
+.token-value {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: var(--accent-color);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.step {
+  background-color: rgba(10, 14, 20, 0.3);
+  border: 1px solid var(--border-color);
+  padding: 15px;
+  border-radius: var(--border-radius);
+  position: relative;
+  transition: all 0.2s;
+}
+
+.step:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-3px);
+}
+
+.step-number {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 30px;
+  height: 30px;
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step h4 {
+  color: var(--text-color);
+  margin-bottom: 10px;
+}
+
+.faq {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.faq-item {
+  background-color: rgba(10, 14, 20, 0.3);
+  border: 1px solid var(--border-color);
+  padding: 15px;
+  border-radius: var(--border-radius);
+}
+
+.faq-question {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--accent-color);
+}
+
+.faq-item p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+footer {
+  text-align: center;
+  margin-top: 30px;
+  padding: 20px;
+  border-top: 1px dashed var(--border-color);
+  font-size: 14px;
+  color: rgba(224, 240, 255, 0.7);
+}
+
+footer p {
+  margin: 5px 0;
+}
+
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--terminal-bg);
+  color: var(--success-color);
+  padding: 15px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--success-color);
+  font-family: var(--font-terminal);
+  animation: slideIn 0.5s, fadeOut 0.5s 4.5s;
+  z-index: 100;
+  box-shadow: 0 0 15px rgba(70, 239, 142, 0.3);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .wallet-section {
+    margin-top: 15px;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .coin-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .tokenomics, .steps, .faq {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Terminal cursor effect for h1 */
+header h1::after {
+  content: "_";
+  animation: cursor 1s infinite;
+}
+
+@keyframes cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Command line terminal additions */
+.section::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font-size: 12px;
+  opacity: 0.7;
+  color: var(--success-color);
+}
+
+.main-content .section:nth-child(1)::before {
+  content: "$ cat readme.md";
+}
+
+.tokenomics::before {
+  content: "$ pump --tokenomics";
+}
+
+.how-to-buy::before {
+  content: "$ ./install.sh";
+}
+
+.main-content .section:nth-last-child(1)::before {
+  content: "$ pump --roadmap";
+}
+
+/* Typing effect */
+.typing-effect {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--accent-color);
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+  margin: 0 auto;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: var(--accent-color) }
+}
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <img src="pressure-water-pump-tubewell-icon-260nw-2204811671-removebg-preview.png" alt="PumpFun Logo" class="logo">
-            <h1>Pump expriment</h1>
-            <h2>The Only Memecoin That Actually Pumps!</h2>
+            <h1>Pump Test</h1>
+            <h2>The Only Memecoin That Actually Pumps... well... the community will decide...</h2>
             
             <div class="wallet-section">
                 <button class="btn btn-phantom" id="connect-wallet">
@@ -525,8 +657,8 @@
         </header>
         
         <div class="buy-section">
-            <h2 class="buy-title">$PUMP TO THE MOON 🚀</h2>
-            <p>Don't miss out on the next 100x memecoin sensation! Limited supply, unlimited potential!</p>
+            <h2 class="buy-title">$PUMP</h2>
+            <p>Unlimited potential</p>
             
             <div class="countdown">Rewards Ends In: <span id="countdown-timer">24:13:45</span></div>
             
@@ -553,7 +685,7 @@
                 <div class="chart-line"></div>
             </div>
             
-            <button class="btn btn-buy" id="buy-btn">BUY $PUMP NOW! 🚀</button>
+            <button class="btn btn-buy" id="buy-btn">BUY $PUMP NOW! </button>
             
             <div class="socials">
                 <a href="https://x.com/Pump_experiment" class="social-btn">🐦</a>
