@@ -660,7 +660,7 @@ header h1::after {
             <h2 class="buy-title">$PUMP</h2>
             <p>Unlimited potential</p>
             
-            <div class="countdown">Rewards Ends In: <span id="countdown-timer">24:13:45</span></div>
+            <div class="countdown">Rewards Ends In: <span id="countdown-timer">00:13:45</span></div>
             
             <div class="coin-stats">
                 <div class="stat">
@@ -968,5 +968,72 @@ header h1::after {
                 }, 1000);
             });
             
-            // Buy button functionality
+            // Complete the buy button functionality
             const buyButtons = document.querySelectorAll('.btn-buy');
+            buyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Check if wallet is connected
+                    if (walletInfo.textContent === 'Not connected') {
+                        showNotification("Please connect your wallet first!");
+                        return;
+                    }
+                    
+                    showNotification("Processing your $PUMP purchase...");
+                    
+                    // Simulate transaction
+                    setTimeout(() => {
+                        showNotification("Congratulations! You've bought 50,000 $PUMP tokens!");
+                    }, 2000);
+                });
+            });
+
+            // Add the missing notification function
+            function showNotification(message) {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.style.display = 'block';
+                notification.style.animation = 'none';
+                
+                // Trigger reflow to restart animation
+                void notification.offsetWidth;
+                notification.style.animation = 'slideIn 0.5s, fadeOut 0.5s 4.5s';
+                
+                // Hide notification after animation completes
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 5000);
+            }
+
+            // Add countdown timer functionality
+            const countdownTimer = document.getElementById('countdown-timer');
+            let timeLeft = {
+                hours: 0,
+                minutes: 13,
+                seconds: 45
+            };
+
+            function updateCountdown() {
+                if (timeLeft.seconds > 0) {
+                    timeLeft.seconds--;
+                } else {
+                    if (timeLeft.minutes > 0) {
+                        timeLeft.minutes--;
+                        timeLeft.seconds = 59;
+                    } else {
+                        if (timeLeft.hours > 0) {
+                            timeLeft.hours--;
+                            timeLeft.minutes = 59;
+                            timeLeft.seconds = 59;
+                        } else {
+                            // Timer finished
+                            clearInterval(countdownInterval);
+                            showNotification("Rewards period has ended!");
+                            return;
+                        }
+                    }
+                }
+                
+                countdownTimer.textContent = `${String(timeLeft.hours).padStart(2, '0')}:${String(timeLeft.minutes).padStart(2, '0')}:${String(timeLeft.seconds).padStart(2, '0')}`;
+            }
+
+            const countdownInterval = setInterval(updateCountdown, 1000);
